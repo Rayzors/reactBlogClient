@@ -3,6 +3,7 @@ import { PostContext } from './postProvider';
 import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Page from './views/Page';
 import Blog from './views/Blog';
+import AdminHome from './views/AdminHome';
 import NotFound from './views/NotFound';
 
 function Nav() {
@@ -27,6 +28,7 @@ function Nav() {
           <div className="view">
             <Switch>
               <Route path="/" exact component={Blog} />
+              <Route path="/admin" exact component={AdminHome} />
               <Route path="/blog" exact component={Blog} />
               <Route path="/blog/:page(\d+)" exact component={Blog} />
               <Route path="/:slug([\w-]+)" exact component={Page} />
