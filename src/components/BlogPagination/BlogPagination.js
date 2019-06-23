@@ -7,7 +7,7 @@ function BlogPagination({ currentPage }) {
 
   function getNbPage(nbPosts) {
     return function(nbPostPerPage) {
-      return nbPosts / nbPostPerPage;
+      return Math.ceil(nbPosts / nbPostPerPage);
     };
   }
 
@@ -36,14 +36,14 @@ function BlogPagination({ currentPage }) {
     });
 
     if (+currentPage > 1) {
-      elementArray.shift(
+      elementArray.unshift(
         <li key={Math.random() * 1000}>
           <Link to={`/blog/${+currentPage - 1}`}>{`<`}</Link>
         </li>
       );
     }
 
-    if (+currentPage > nbPage) {
+    if (+currentPage < nbPage && paginationNumbers(nbPage).length) {
       elementArray.push(
         <li key={Math.random() * 1000}>
           <Link to={`/blog/${+currentPage + 1}`}>{`>`}</Link>
