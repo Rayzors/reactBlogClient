@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { PostContext } from './postProvider';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Page from './views/Page';
 import Blog from './views/Blog';
+import NotFound from './views/NotFound';
 
 function Nav() {
   const { pages } = useContext(PostContext);
@@ -24,9 +25,13 @@ function Nav() {
             </ul>
           </nav>
           <div className="view">
-            <Route path="/" exact component={Blog} />
-            <Route path="/blog/:page(\d+)" exact component={Blog} />
-            <Route path="/:slug([\w-]+)" exact component={Page} />
+            <Switch>
+              <Route path="/" exact component={Blog} />
+              <Route path="/blog" exact component={Blog} />
+              <Route path="/blog/:page(\d+)" exact component={Blog} />
+              <Route path="/:slug([\w-]+)" exact component={Page} />
+              <Route component={NotFound} />
+            </Switch>
           </div>
         </>
       )}

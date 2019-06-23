@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { PostContext } from '../postProvider';
 import Pagination from '../components/BlogPagination/BlogPagination';
 import Article from '../components/Article/Article';
+import NotFound from './NotFound';
 
 function Blog({ match, location }) {
   const { posts, nbPostPerPage } = useContext(PostContext);
@@ -15,6 +16,8 @@ function Blog({ match, location }) {
     }
     return false;
   });
+
+  if (!currentPosts.length) return <NotFound />;
 
   return (
     <>
