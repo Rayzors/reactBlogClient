@@ -6,6 +6,14 @@ class PostService {
     const posts = await response.json();
     return posts;
   }
+
+  static async deletePost(id) {
+    const response = await fetch(`http://localhost:8080/api/posts/${id}`, {
+      method: 'DELETE',
+    });
+    const posts = await response.json();
+    return posts;
+  }
 }
 
 export default PostService;

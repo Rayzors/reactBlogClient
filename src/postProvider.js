@@ -22,8 +22,18 @@ function PostProvider(props) {
     fetchData();
   }, []);
 
+  async function deletePost(id) {
+    const result = await PostService.deletePost(id);
+
+    const filteredPosts = posts.filter(({ _id }) => _id !== id);
+    setPosts(filteredPosts);
+
+    const filteredPages = pages.filter(({ _id }) => _id !== id);
+    setPages(filteredPages);
+  }
+
   return (
-    <PostContext.Provider value={{ pages, posts, nbPostPerPage }}>
+    <PostContext.Provider value={{ pages, posts, nbPostPerPage, deletePost }}>
       {props.children}
     </PostContext.Provider>
   );
