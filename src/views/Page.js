@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { PostContext } from '../postProvider';
+import { PostContext } from '../store/postProvider';
 import NotFound from './NotFound';
 
 function Page({ match, location }) {

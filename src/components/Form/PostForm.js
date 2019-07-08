@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { PostContext } from '../../postProvider';
+import { PostContext } from '../../store/postProvider';
 
 function PostForm({ post }) {
   const { addPost } = useContext(PostContext);

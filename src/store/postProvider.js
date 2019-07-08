@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from 'react';
-import PostService from './services/Post.service';
+import PostService from '../services/Post.service';
 
 export const PostContext = createContext({});
 

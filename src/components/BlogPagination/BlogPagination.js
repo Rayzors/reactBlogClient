@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { PostContext } from '../../postProvider';
+import { PostContext } from '../../store/postProvider';
 
 function BlogPagination({ currentPage }) {
   const { posts, nbPostPerPage } = useContext(PostContext);

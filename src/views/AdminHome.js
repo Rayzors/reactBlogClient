@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { PostContext } from '../postProvider';
+import { PostContext } from '../store/postProvider';
 import Popin from '../components/Popin/Popin';
 import PostForm from '../components/Form/PostForm';
 

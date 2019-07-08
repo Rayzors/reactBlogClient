@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { PostContext } from '../postProvider';
+import { PostContext } from '../store/postProvider';
 import Pagination from '../components/BlogPagination/BlogPagination';
 import Article from '../components/Article/Article';
 import NotFound from './NotFound';
