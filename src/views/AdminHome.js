@@ -1,8 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { PostContext } from '../postProvider';
+import Popin from '../components/Popin/Popin';
+import PostForm from '../components/Form/PostForm';
 
 function AdminHome() {
   const { pages, posts, deletePost } = useContext(PostContext);
+  const [isOpen, setPopinState] = useState(false);
+  const [currentPost, setCurrentPost] = useState(null);
+
+  function toggle(post = null) {
+    setPopinState(!isOpen);
+    if (!isOpen && post) {
+      setCurrentPost(post);
+    } else {
+      setCurrentPost(null);
+    }
+  }
 
   return (
     <>
@@ -24,7 +37,7 @@ function AdminHome() {
                   <td>{page.title}</td>
                   <td>{page.date}</td>
                   <td>
-                    <button>edit</button>
+                    <button onClick={() => toggle(page)}>edit</button>
                     <button onClick={() => deletePost(page._id)}>delete</button>
                   </td>
                 </tr>
@@ -48,7 +61,7 @@ function AdminHome() {
                   <td>{post.title}</td>
                   <td>{post.date}</td>
                   <td>
-                    <button>edit</button>
+                    <button onClick={() => toggle(post)}>edit</button>
                     <button onClick={() => deletePost(post._id)}>delete</button>
                   </td>
                 </tr>
@@ -57,6 +70,9 @@ function AdminHome() {
           </table>
         </div>
       </div>
+      <Popin isOpen={isOpen} toggle={toggle}>
+        <PostForm post={currentPost} />
+      </Popin>
     </>
   );
 }
