@@ -1,8 +1,15 @@
 import React, { useState, useContext } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import { UserContext } from '../../store/userProvider';
 
-function LoginForm({ isLogin }) {
-  const { register, login } = useContext(UserContext);
+function LoginForm({ isLogin, history, location }) {
+  const { register, login, isAuthenticated } = useContext(UserContext);
 
   let schema = {
     name: '',
@@ -35,9 +42,9 @@ function LoginForm({ isLogin }) {
     }
 
     if (!isLogin) {
-      register(formData);
+      const { error } = register(formData);
     } else {
-      login(formData);
+      const { error } = login(formData);
     }
   }
 
