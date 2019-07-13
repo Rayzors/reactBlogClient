@@ -44,68 +44,66 @@ function Nav() {
 
   return (
     <Router>
-      {pages.length > 0 && (
-        <>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Blog</Link>
+      <>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Blog</Link>
+            </li>
+            {pages.map((page, index) => (
+              <li key={page._id}>
+                <Link to={`/${page.slug}`}>{page.title}</Link>
               </li>
-              {pages.map((page, index) => (
-                <li key={page._id}>
-                  <Link to={`/${page.slug}`}>{page.title}</Link>
-                </li>
-              ))}
-              {isAuthenticated ? (
+            ))}
+            {isAuthenticated ? (
+              <li>
+                <button onClick={logout}>Déconnexion</button>
+              </li>
+            ) : (
+              <>
                 <li>
-                  <button onClick={logout}>Déconnexion</button>
+                  <Link to="/login">Connexion</Link>
                 </li>
-              ) : (
-                <>
-                  <li>
-                    <Link to="/login">Connexion</Link>
-                  </li>
-                  <li>
-                    <Link to="/register">S'inscrire</Link>
-                  </li>
-                </>
-              )}
-            </ul>
-          </nav>
-          <div className="view">
-            <Switch>
-              <Route path="/" exact component={Blog} />
-              <PrivateRoute
-                path="/admin"
-                exact
-                component={AdminHome}
-                condition={isAuthenticated}
-                redirectTo={{ pathname: '/login' }}
-              />
-              <PrivateRoute
-                path="/register"
-                exact
-                component={LoginForm}
-                componentProps={{ isLogin: false }}
-                condition={!isAuthenticated}
-                redirectTo={{ pathname: '/' }}
-              />
-              <PrivateRoute
-                path="/login"
-                exact
-                component={LoginForm}
-                componentProps={{ isLogin: true }}
-                condition={!isAuthenticated}
-                redirectTo={'referer'}
-              />
-              <Route path="/blog" exact component={Blog} />
-              <Route path="/blog/:page(\d+)" exact component={Blog} />
-              <Route path="/:slug([\w-]+)" exact component={Page} />
-              <Route component={NotFound} />
-            </Switch>
-          </div>
-        </>
-      )}
+                <li>
+                  <Link to="/register">S'inscrire</Link>
+                </li>
+              </>
+            )}
+          </ul>
+        </nav>
+        <div className="view">
+          <Switch>
+            <Route path="/" exact component={Blog} />
+            <PrivateRoute
+              path="/admin"
+              exact
+              component={AdminHome}
+              condition={isAuthenticated}
+              redirectTo={{ pathname: '/login' }}
+            />
+            <PrivateRoute
+              path="/register"
+              exact
+              component={LoginForm}
+              componentProps={{ isLogin: false }}
+              condition={!isAuthenticated}
+              redirectTo={{ pathname: '/' }}
+            />
+            <PrivateRoute
+              path="/login"
+              exact
+              component={LoginForm}
+              componentProps={{ isLogin: true }}
+              condition={!isAuthenticated}
+              redirectTo={'referer'}
+            />
+            <Route path="/blog" exact component={Blog} />
+            <Route path="/blog/:page(\d+)" exact component={Blog} />
+            <Route path="/:slug([\w-]+)" exact component={Page} />
+            <Route component={NotFound} />
+          </Switch>
+        </div>
+      </>
     </Router>
   );
 }
