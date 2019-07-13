@@ -36,9 +36,23 @@ function PostProvider(props) {
   async function addPost(post) {
     const result = await PostService.addPost(post);
 
-    console.log(result);
-
     if (!result._id) return;
+
+    const filteredPosts = posts.map((post) => {
+      if (post._id === result._id) {
+        return result;
+      }
+      return post;
+    });
+    setPosts(filteredPosts);
+
+    const filteredPages = pages.map((page) => {
+      if (page._id === result._id) {
+        return result;
+      }
+      return page;
+    });
+    setPages(filteredPages);
   }
 
   return (
