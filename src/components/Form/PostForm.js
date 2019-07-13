@@ -1,28 +1,36 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { PostContext } from '../../store/postProvider';
 
-function PostForm({ post }) {
+function PostForm({ post, postType }) {
   const { addPost } = useContext(PostContext);
 
-  const [form, setForm] = useState({
-    _id: '',
+  let schema = {
     title: '',
     slug: '',
     author: '',
     content: '',
-    type: '',
-  });
+    type: postType,
+  };
+
+  if (post && !schema.hasOwnProperty('_id')) {
+    schema['_id'] = '';
+  }
+
+  const [form, setForm] = useState(schema);
 
   useEffect(() => {
-    setForm({
-      _id: post ? post._id : '',
+    const schema = {
       title: post ? post.title : '',
       slug: post ? post.slug : '',
       author: post ? post.author : '',
       content: post ? post.content : '',
-      type: post ? post.type : '',
-    });
-  }, [post]);
+      type: postType,
+    };
+    if (post && !schema.hasOwnProperty('_id')) {
+      schema['_id'] = post ? post._id : '';
+    }
+    setForm(schema);
+  }, [post, postType]);
 
   function onChange(e) {
     setForm({ ...form, [e.target.id]: e.target.value });
@@ -83,7 +91,7 @@ function PostForm({ post }) {
 
         <input type="hidden" id="type" value={form.type} name="type" />
 
-        {post && <input type="hidden" id="type" value={form._id} name="type" />}
+        {post && <input type="hidden" id="_id" value={post._id} name="_id" />}
 
         <input type="submit" value={post ? 'Modifier' : 'Envoyer'} />
       </form>

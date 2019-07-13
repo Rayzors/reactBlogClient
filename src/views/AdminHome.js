@@ -7,11 +7,15 @@ function AdminHome() {
   const { pages, posts, deletePost } = useContext(PostContext);
   const [isOpen, setPopinState] = useState(false);
   const [currentPost, setCurrentPost] = useState(null);
+  const [postType, setPostType] = useState('');
 
-  function toggle(post = null) {
+  function toggle({ post, type }) {
     setPopinState(!isOpen);
     if (!isOpen && post) {
       setCurrentPost(post);
+      setPostType(type);
+    } else if (!isOpen && type) {
+      setPostType(type);
     } else {
       setCurrentPost(null);
     }
@@ -23,6 +27,7 @@ function AdminHome() {
       <div className="two-columns">
         <div>
           <h2>Pages</h2>
+          <button onClick={() => toggle({ type: 'page' })}>Add</button>
           <table>
             <thead>
               <tr>
@@ -37,7 +42,11 @@ function AdminHome() {
                   <td>{page.title}</td>
                   <td>{page.date}</td>
                   <td>
-                    <button onClick={() => toggle(page)}>edit</button>
+                    <button
+                      onClick={() => toggle({ post: page, type: 'page' })}
+                    >
+                      edit
+                    </button>
                     <button onClick={() => deletePost(page._id)}>delete</button>
                   </td>
                 </tr>
@@ -47,6 +56,7 @@ function AdminHome() {
         </div>
         <div>
           <h2>Posts</h2>
+          <button onClick={() => toggle({ type: 'post' })}>Add</button>
           <table>
             <thead>
               <tr>
@@ -61,7 +71,9 @@ function AdminHome() {
                   <td>{post.title}</td>
                   <td>{post.date}</td>
                   <td>
-                    <button onClick={() => toggle(post)}>edit</button>
+                    <button onClick={() => toggle({ post, type: 'post' })}>
+                      edit
+                    </button>
                     <button onClick={() => deletePost(post._id)}>delete</button>
                   </td>
                 </tr>
@@ -71,7 +83,7 @@ function AdminHome() {
         </div>
       </div>
       <Popin isOpen={isOpen} toggle={toggle}>
-        <PostForm post={currentPost} />
+        <PostForm post={currentPost} postType={postType} />
       </Popin>
     </>
   );

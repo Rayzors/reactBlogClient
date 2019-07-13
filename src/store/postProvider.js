@@ -27,9 +27,9 @@ function PostProvider(props) {
     if (!result._id) return;
 
     const filteredPosts = posts.filter(({ _id }) => _id !== id);
-    setPosts(filteredPosts);
-
     const filteredPages = pages.filter(({ _id }) => _id !== id);
+
+    setPosts(filteredPosts);
     setPages(filteredPages);
   }
 
@@ -38,21 +38,30 @@ function PostProvider(props) {
 
     if (!result._id) return;
 
-    const filteredPosts = posts.map((post) => {
-      if (post._id === result._id) {
-        return result;
-      }
-      return post;
-    });
-    setPosts(filteredPosts);
+    let postArray = [];
+    let pageArray = [];
+    const postIndex = posts.findIndex((post) => post._id === result._id);
+    const pageIndex = pages.findIndex((page) => page._id === result._id);
 
-    const filteredPages = pages.map((page) => {
-      if (page._id === result._id) {
-        return result;
+    if (result.type === 'post') {
+      if (postIndex === -1) {
+        postArray = [result, ...posts];
+      } else {
+        postArray = [...posts];
+        postArray[postIndex] = result;
       }
-      return page;
-    });
-    setPages(filteredPages);
+      setPosts(postArray);
+    }
+
+    if (result.type === 'page') {
+      if (pageIndex === -1) {
+        pageArray = [result, ...pages];
+      } else {
+        pageArray = [...pages];
+        pageArray[pageIndex] = result;
+      }
+      setPages(pageArray);
+    }
   }
 
   return (
