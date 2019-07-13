@@ -31,7 +31,9 @@ function Nav() {
                 ...rest.redirectTo,
                 state: { from: props.location },
                 pathname:
-                  rest.redirectTo === 'referer'
+                  rest.redirectTo === 'referer' &&
+                  props.location.state &&
+                  props.location.state.hasOwnProperty('from')
                     ? props.location.state.from.pathname
                     : rest.redirectTo.pathname,
               }}
