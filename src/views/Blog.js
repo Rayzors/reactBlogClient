@@ -3,6 +3,24 @@ import { PostContext } from '../store/postProvider';
 import Pagination from '../components/BlogPagination/BlogPagination';
 import Article from '../components/Article/Article';
 import NotFound from './NotFound';
+import styled from 'styled-components';
+import { Container } from '../styled-components/Container';
+
+const ArticleList = styled.div`
+  ul {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2em;
+  }
+`;
+
+const Title = styled.h1`
+  font-size: 36px;
+  font-weight: bold;
+  margin: 1em 0;
+  color: #000;
+  text-align: left;
+`;
 
 function Blog({ match, location }) {
   const { posts, nbPostPerPage } = useContext(PostContext);
@@ -21,8 +39,8 @@ function Blog({ match, location }) {
 
   return (
     <>
-      <h1>Blog</h1>
-      <div className="article-list">
+      <Title>Blog</Title>
+      <ArticleList>
         <ul>
           {currentPosts &&
             currentPosts.map((post) => (
@@ -35,7 +53,7 @@ function Blog({ match, location }) {
               </li>
             ))}
         </ul>
-      </div>
+      </ArticleList>
       <Pagination currentPage={match.params.page || 1} />
     </>
   );

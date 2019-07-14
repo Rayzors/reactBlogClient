@@ -8,11 +8,45 @@ import {
   Switch,
   Redirect,
 } from 'react-router-dom';
+import styled from 'styled-components';
+import { Container } from './styled-components/Container';
 import Page from './views/Page';
 import Blog from './views/Blog';
 import AdminHome from './views/AdminHome';
 import LoginForm from './components/Form/LoginForm';
 import NotFound from './views/NotFound';
+
+const Topbar = styled.nav`
+  padding: 1em 0;
+  background: #fff;
+
+  ul {
+    list-style: none;
+
+    > li {
+      display: inline-block;
+
+      &:not(:last-child) {
+        margin-right: 1em;
+      }
+
+      a {
+        color: black;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+`;
+
+const Wrapper = styled(Container)`
+  display: flex;
+  justify-content: space-between;
+  align-items; center;
+`;
 
 function Nav() {
   const { pages } = useContext(PostContext);
@@ -47,33 +81,37 @@ function Nav() {
   return (
     <Router>
       <>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Blog</Link>
-            </li>
-            {pages.map((page, index) => (
-              <li key={page._id}>
-                <Link to={`/${page.slug}`}>{page.title}</Link>
-              </li>
-            ))}
-            {isAuthenticated ? (
+        <Topbar>
+          <Wrapper>
+            <ul>
               <li>
-                <button onClick={logout}>Déconnexion</button>
+                <Link to="/">Blog</Link>
               </li>
-            ) : (
-              <>
-                <li>
-                  <Link to="/login">Connexion</Link>
+              {pages.map((page, index) => (
+                <li key={page._id}>
+                  <Link to={`/${page.slug}`}>{page.title}</Link>
                 </li>
+              ))}
+            </ul>
+            <ul>
+              {isAuthenticated ? (
                 <li>
-                  <Link to="/register">S'inscrire</Link>
+                  <button onClick={logout}>Déconnexion</button>
                 </li>
-              </>
-            )}
-          </ul>
-        </nav>
-        <div className="view">
+              ) : (
+                <>
+                  <li>
+                    <Link to="/login">Connexion</Link>
+                  </li>
+                  <li>
+                    <Link to="/register">S'inscrire</Link>
+                  </li>
+                </>
+              )}
+            </ul>
+          </Wrapper>
+        </Topbar>
+        <Container>
           <Switch>
             <Route path="/" exact component={Blog} />
             <PrivateRoute
@@ -104,7 +142,7 @@ function Nav() {
             <Route path="/:slug([\w-]+)" exact component={Page} />
             <Route component={NotFound} />
           </Switch>
-        </div>
+        </Container>
       </>
     </Router>
   );

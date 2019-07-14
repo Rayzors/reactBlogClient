@@ -6,7 +6,7 @@ export const PostContext = createContext({});
 function PostProvider(props) {
   const [pages, setPages] = useState([]);
   const [posts, setPosts] = useState([]);
-  const [nbPostPerPage] = useState(2);
+  const [nbPostPerPage] = useState(6);
 
   useEffect(() => {
     async function fetchData() {
