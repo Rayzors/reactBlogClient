@@ -1,15 +1,8 @@
 import React, { useState, useContext } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Switch,
-  Redirect,
-} from 'react-router-dom';
 import { UserContext } from '../../store/userProvider';
 
-function LoginForm({ isLogin, history, location }) {
-  const { register, login, isAuthenticated } = useContext(UserContext);
+function LoginForm({ isLogin }) {
+  const { register, login } = useContext(UserContext);
 
   let schema = {
     name: '',
