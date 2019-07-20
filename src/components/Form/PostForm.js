@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { PostContext } from '../../store/postProvider';
+import { UserContext } from '../../store/userProvider';
 
 function PostForm({ post, postType }) {
   const { addPost } = useContext(PostContext);
+  const { user } = useContext(UserContext);
 
   let schema = {
     title: '',
     slug: '',
-    author: '',
     content: '',
     type: postType,
   };
@@ -22,7 +23,6 @@ function PostForm({ post, postType }) {
     const schema = {
       title: post ? post.title : '',
       slug: post ? post.slug : '',
-      author: post ? post.author : '',
       content: post ? post.content : '',
       type: postType,
     };
@@ -48,6 +48,8 @@ function PostForm({ post, postType }) {
       }
     }
 
+    formData.append('author', user._id);
+
     addPost(formData);
   }
 
@@ -72,15 +74,6 @@ function PostForm({ post, postType }) {
           name="slug"
         />
 
-        <label htmlFor="author">Author</label>
-        <input
-          type="text"
-          value={form.author}
-          onChange={onChange}
-          id="author"
-          name="author"
-        />
-
         <label htmlFor="content">Content</label>
         <textarea
           id="content"
@@ -90,8 +83,6 @@ function PostForm({ post, postType }) {
         />
 
         <input type="hidden" id="type" value={form.type} name="type" />
-
-        {post && <input type="hidden" id="_id" value={post._id} name="_id" />}
 
         <input type="submit" value={post ? 'Modifier' : 'Envoyer'} />
       </form>
