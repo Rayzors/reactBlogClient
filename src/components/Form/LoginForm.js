@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../../store/userProvider';
+import useForm from '../../hooks/useForm';
 
 function LoginForm({ isLogin }) {
   const { register, login } = useContext(UserContext);
@@ -17,13 +18,10 @@ function LoginForm({ isLogin }) {
     };
   }
 
-  const [form, setForm] = useState(schema);
+  const [form, setForm, onChange] = useForm(schema);
+  const [error, setError] = useState({});
 
-  function onChange(e) {
-    setForm({ ...form, [e.target.id]: e.target.value });
-  }
-
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
 
     const formData = new FormData();
@@ -35,14 +33,17 @@ function LoginForm({ isLogin }) {
     }
 
     if (!isLogin) {
-      const { error } = register(formData);
+      const { error } = await register(formData);
+      if (error) setError({ error });
     } else {
-      const { error } = login(formData);
+      const { error } = await login(formData);
+      if (error) setError({ error });
     }
   }
 
   return (
     <>
+      {error && <p>{error.error}</p>}
       <form onSubmit={onSubmit}>
         {!isLogin && (
           <>
@@ -61,7 +62,7 @@ function LoginForm({ isLogin }) {
 
         <label htmlFor="password">Password</label>
         <input
-          type="text"
+          type="password"
           id="password"
           value={form.password}
           onChange={onChange}
