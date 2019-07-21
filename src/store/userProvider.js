@@ -9,7 +9,6 @@ export const UserContext = createContext({});
 function UserProvider(props) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState({});
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -25,7 +24,7 @@ function UserProvider(props) {
 
   async function login(data) {
     const { token, error } = await UserService.login(data);
-    if (error) return error;
+    if (error) return { error };
     localStorage.setItem('token', token);
     auth();
     return token;
