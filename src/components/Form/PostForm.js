@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { PostContext } from '../../store/postProvider';
 import { UserContext } from '../../store/userProvider';
+import useForm from '../../hooks/useForm';
+import { Input, Textarea, Group, Button } from '../../styled-components/Form';
+import { SubTitle } from '../../styled-components/Title';
 
 function PostForm({ post, postType }) {
   const { addPost } = useContext(PostContext);
@@ -17,7 +20,7 @@ function PostForm({ post, postType }) {
     schema['_id'] = '';
   }
 
-  const [form, setForm] = useState(schema);
+  const [form, setForm, onChange] = useForm(schema);
 
   useEffect(() => {
     const schema = {
@@ -30,11 +33,7 @@ function PostForm({ post, postType }) {
       schema['_id'] = post ? post._id : '';
     }
     setForm(schema);
-  }, [post, postType]);
-
-  function onChange(e) {
-    setForm({ ...form, [e.target.id]: e.target.value });
-  }
+  }, [post, postType, setForm]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -55,36 +54,46 @@ function PostForm({ post, postType }) {
 
   return (
     <div className="form__edit">
+      <SubTitle>
+        {post ? `Modification d'un ${form.type}` : `Ajout d'un ${form.type}`}
+      </SubTitle>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="title">Title</label>
-        <input
-          type="text"
-          value={form.title}
-          onChange={onChange}
-          id="title"
-          name="title"
-        />
+        <Group>
+          <label htmlFor="title">Titre</label>
+          <Input
+            type="text"
+            value={form.title}
+            onChange={onChange}
+            placeholder="Entrez un titre"
+            id="title"
+            name="title"
+          />
+        </Group>
 
-        <label htmlFor="slug">Slug</label>
-        <input
-          type="text"
-          value={form.slug}
-          onChange={onChange}
-          id="slug"
-          name="slug"
-        />
+        <Group>
+          <label htmlFor="slug">Slug</label>
+          <Input
+            type="text"
+            value={form.slug}
+            onChange={onChange}
+            placeholder="ici-un-slug"
+            id="slug"
+            name="slug"
+          />
+        </Group>
 
-        <label htmlFor="content">Content</label>
-        <textarea
-          id="content"
-          value={form.content}
-          onChange={onChange}
-          name="content"
-        />
+        <Group>
+          <label htmlFor="content">Contenu</label>
+          <Textarea
+            id="content"
+            value={form.content}
+            onChange={onChange}
+            placeholder="Votre contenu"
+            name="content"
+          />
+        </Group>
 
-        <input type="hidden" id="type" value={form.type} name="type" />
-
-        <input type="submit" value={post ? 'Modifier' : 'Envoyer'} />
+        <Button type="submit" value={post ? 'Modifier' : 'Envoyer'} />
       </form>
     </div>
   );

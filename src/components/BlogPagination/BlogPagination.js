@@ -1,6 +1,32 @@
 import React, { useContext } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { PostContext } from '../../store/postProvider';
+import styled from 'styled-components';
+
+const Pagination = styled.div`
+  margin: 2em auto;
+
+  ul {
+    li {
+      color: #000;
+      display: inline-block;
+      margin-right: 1em;
+
+      a {
+        text-decoration: none;
+        color: #676767;
+
+        &:hover {
+          color: #000;
+        }
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+`;
 
 function BlogPagination({ currentPage }) {
   const { posts, nbPostPerPage } = useContext(PostContext);
@@ -55,9 +81,9 @@ function BlogPagination({ currentPage }) {
   }
 
   return (
-    <div className="blog-pagination">
+    <Pagination>
       <ul>{generatedElement(paginationNumbers(nbPage)).map((el) => el)}</ul>
-    </div>
+    </Pagination>
   );
 }
 
