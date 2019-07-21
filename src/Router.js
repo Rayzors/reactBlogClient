@@ -11,6 +11,7 @@ import {
 import styled from 'styled-components';
 import { Container } from './styled-components/Container';
 import Page from './views/Page';
+import Post from './views/Post';
 import Blog from './views/Blog';
 import AdminHome from './views/AdminHome';
 import LoginForm from './components/Form/LoginForm';
@@ -139,6 +140,7 @@ function Nav() {
             />
             <Route path="/blog" exact component={Blog} />
             <Route path="/blog/:page(\d+)" exact component={Blog} />
+            <Route path="/blog/:slug([\w-]+)" exact component={Post} />
             <Route path="/:slug([\w-]+)" exact component={Page} />
             <Route component={NotFound} />
           </Switch>
