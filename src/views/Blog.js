@@ -49,6 +49,8 @@ function Blog({ match, location }) {
                   title={post.title}
                   date={post.date}
                   content={post.content}
+                  author={post.author.name}
+                  slug={post.slug}
                 />
               </li>
             ))}
